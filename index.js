@@ -1,6 +1,7 @@
 var nodemailer = require('nodemailer');
 var _ = require('lodash');
-var ejs = require('ejs');
+var nunjucks = require('nunjucks');
+nunjucks.configure({ autoescape: true });
 
 module.exports = {
   bind: function(fpm){
@@ -30,7 +31,7 @@ module.exports = {
             callback('error: has not init mailer transporter');
             return;
           }
-          var result = ejs.render(options.template, options.data);
+          var result = nunjucks.renderString(options.template, options.data);
           options = options || {};
           var mailOptions = {
               from: initOptions.user, // 发件地址
